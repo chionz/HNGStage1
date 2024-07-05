@@ -4,7 +4,7 @@ from django.http import JsonResponse
 import requests
 
 def get_location(ip):
-    response = requests.get(f"http://ipinfo.io/105.120.132.47/json")
+    response = requests.get(f"http://ipinfo.io/{ip}/json")
     data = response.json()
     print(data)
     return data["city"]
@@ -17,7 +17,7 @@ def get_temperature(location):
 
 def hello(request):
     visitor_name = request.GET.get('visitor_name', 'Visitor')
-    client_ip = request.META.get('REMOTE_ADDR')
+    client_ip = request.META.get('HTTP_X_REAL_IP')
 
     location = get_location(ip=client_ip)
     temperature = get_temperature(location)
